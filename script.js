@@ -21,6 +21,7 @@ const scores = [0, 0];
 score0.textContent = 0;
 score1.textContent = 0;
 let currentPlayer = 0;
+let gameStatus = true;
 
 // Score values
 let currentScore = 0;
@@ -41,50 +42,57 @@ const resetCurrentScore = () => {
 
 // Roll the dice
 btnRollDice.addEventListener("click", () => {
-  // Generate a random dice number (1 - 6)
-  const diceValue = Math.trunc(Math.random() * 6) + 1;
+  if (gameStatus) {
+    // Generate a random dice number (1 - 6)
+    const diceValue = Math.trunc(Math.random() * 6) + 1;
 
-  // Display the dice on the screen
-  diceImg.classList.remove("hidden");
-  diceImg.src = `dice-${diceValue}.png`;
+    // Display the dice on the screen
+    diceImg.classList.remove("hidden");
+    diceImg.src = `dice-${diceValue}.png`;
 
-  // Switch to the next player if the dice value is 1
-  if (diceValue === 1) {
-    // Resetting the current score
-    resetCurrentScore();
+    // Switch to the next player if the dice value is 1
+    if (diceValue === 1) {
+      // Resetting the current score
+      resetCurrentScore();
 
-    // Switching the current player
-    switchPlayer();
-  } else {
-    // Setting the new current score value
-    currentScore += diceValue;
-    document.getElementById(`current--${currentPlayer}`).textContent =
-      currentScore;
+      // Switching the current player
+      switchPlayer();
+    } else {
+      // Setting the new current score value
+      currentScore += diceValue;
+      document.getElementById(`current--${currentPlayer}`).textContent =
+        currentScore;
+    }
   }
 });
 
 // Save the score and switch players or win the game
 btnHoldScore.addEventListener("click", () => {
-  // Save the current score to the current players score
-  scores[currentPlayer] += currentScore;
+  if (gameStatus) {
+    // Save the current score to the current players score
+    scores[currentPlayer] += currentScore;
 
-  // Changing the score that is displayed on the screen
-  document.getElementById(`score--${currentPlayer}`).textContent =
-    scores[currentPlayer];
+    // Changing the score that is displayed on the screen
+    document.getElementById(`score--${currentPlayer}`).textContent =
+      scores[currentPlayer];
 
-  // Reset the current score
-  resetCurrentScore();
+    // Reset the current score
+    resetCurrentScore();
 
-  // Check if the player won the game
-  if (scores[currentPlayer] >= 10) {
-    document
-      .querySelector(`.player--${currentPlayer}`)
-      .classList.add("player--winner");
-    document
-      .querySelector(`.player--${currentPlayer}`)
-      .classList.remove("player--active");
-  } else {
-    // Switch players
-    switchPlayer();
+    // Check if the player won the game
+    if (scores[currentPlayer] >= 10) {
+      gameStatus = false;
+      diceImg.classList.add("hidden");
+
+      document
+        .querySelector(`.player--${currentPlayer}`)
+        .classList.add("player--winner");
+      document
+        .querySelector(`.player--${currentPlayer}`)
+        .classList.remove("player--active");
+    } else {
+      // Switch players
+      switchPlayer();
+    }
   }
 });
