@@ -13,9 +13,11 @@ const current0 = document.getElementById("current--0");
 const current1 = document.getElementById("current--1");
 
 // Initial starting screen state
+diceImg.classList.add("hidden");
 score0.textContent = 0;
 score1.textContent = 0;
-diceImg.classList.add("hidden");
+const scores = [0, 0];
+let currentPlayer = 0;
 
 // Score values
 let currentScore = 0;
@@ -31,8 +33,14 @@ btnRollDice.addEventListener("click", () => {
 
   // Switch to the next player if the dice value is 1
   if (diceValue === 1) {
+    currentScore = 0;
+    document.getElementById(`current--${currentPlayer}`).textContent =
+      currentScore;
+    currentPlayer = currentPlayer === 0 ? 1 : 0;
   } else {
+    // Setting the
     currentScore += diceValue;
-    current0.textContent = currentScore;
+    document.getElementById(`current--${currentPlayer}`).textContent =
+      currentScore;
   }
 });
