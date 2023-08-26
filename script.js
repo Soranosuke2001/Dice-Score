@@ -17,7 +17,7 @@ const player1 = document.querySelector(".player--1");
 
 // Initial starting screen state
 diceImg.classList.add("hidden");
-const scores = [0, 0];
+let scores = [0, 0];
 score0.textContent = 0;
 score1.textContent = 0;
 let currentPlayer = 0;
@@ -80,7 +80,7 @@ btnHoldScore.addEventListener("click", () => {
     resetCurrentScore();
 
     // Check if the player won the game
-    if (scores[currentPlayer] >= 10) {
+    if (scores[currentPlayer] >= 100) {
       gameStatus = false;
       diceImg.classList.add("hidden");
 
@@ -95,4 +95,27 @@ btnHoldScore.addEventListener("click", () => {
       switchPlayer();
     }
   }
+});
+
+btnNewGame.addEventListener("click", () => {
+  // Reset all to initial state
+  diceImg.classList.add("hidden");
+  scores = [0, 0];
+  currentPlayer = 0;
+  currentScore = 0;
+  gameStatus = true;
+  
+  score0.textContent = 0;
+  score1.textContent = 0;
+  
+  current0.textContent = 0;
+  current1.textContent = 0;
+
+  // Reset all styling
+  player0.classList.remove("player--winner");
+  player1.classList.remove("player--winner");
+  
+  player0.classList.add("player--active");
+  player1.classList.remove("player--active");
+
 });
