@@ -75,6 +75,16 @@ btnHoldScore.addEventListener("click", () => {
   // Reset the current score
   resetCurrentScore();
 
-  // Switch players
-  switchPlayer();
+  // Check if the player won the game
+  if (scores[currentPlayer] >= 10) {
+    document
+      .querySelector(`.player--${currentPlayer}`)
+      .classList.add("player--winner");
+    document
+      .querySelector(`.player--${currentPlayer}`)
+      .classList.remove("player--active");
+  } else {
+    // Switch players
+    switchPlayer();
+  }
 });
